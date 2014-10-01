@@ -10,11 +10,12 @@ import RPi.GPIO as GPIO
 
 class usonic():
 
-
-    def init(self, triggerpin, echopin):
-
+    def __init__(self, triggerpin, echopin):
+        # THIS ISN'T USED RIGHT NOW. ALL GPIO CONFIG IS DONE IN THE "MAIN".PY SCRIPT (VIEWS.PY)
+        """
         self.triggerpin = triggerpin
         self.echopin = echopin
+
         if self.triggerpin or self.echopin == 0:
             print "Error is configuring GPIO for ultrasound device"
 
@@ -42,6 +43,7 @@ class usonic():
         # no idea why. If you have odd crashing issues, increase delay
         time.sleep(0.3)
         pass
+        """
 
     def readdistance(self, triggerpin, echopin):
 
@@ -76,7 +78,7 @@ class usonic():
         # GPIO input = the pin that's connected to "Echo" on the sensor
         #while GPIO.input(27) == 0:
         while GPIO.input(echopin) == 0:
-          signaloff = time.time()
+          self.signaloff = time.time()
 
         # listen to the input pin. Once a signal is received, record the
         # time the signal came through
@@ -84,19 +86,19 @@ class usonic():
         # GPIO input = the pin that's connected to "Echo" on the sensor
         #while GPIO.input(27) == 1:
         while GPIO.input(echopin) == 1:
-          signalon = time.time()
+          self.signalon = time.time()
 
         # work out the difference in the two recorded times above to
         # calculate the distance of an object in front of the sensor
-        timepassed = signalon - signaloff
+        self.timepassed = self.signalon - self.signaloff
 
         # we now have our distance but it's not in a useful unit of
         # measurement. So now we convert this distance into centimetres
-        distance = timepassed * 17000
+        self.distance = self.timepassed * 17000
 
         # return the distance of an object in front of the sensor in cm
-        return distance
+        return self.distance
 
         # we're no longer using the GPIO, so tell software we're done
-        GPIO.cleanup()
+        #GPIO.cleanup()
 

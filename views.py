@@ -45,7 +45,10 @@ def configureGPIO():
 
 def checkheight(self):
     # check height routine
-    distance = usonic.readdistance()
+    us = usonic.usonic(TRIGGER, ECHO)
+    us.readdistance()
+
+    distance = readdistance()
     if abs(distance - self.lastheight) > self.percentheightchange * self.lastheight:
         self.lastheight = distance
 
