@@ -4,36 +4,46 @@
 # GPIO output = the pin that's connected to "Trig" on the sensor
 # GPIO input = the pin that's connected to "Echo" on the sensor
 
+import time
+import RPi.GPIO as GPIO
 
-def reading(sensor):
-    import time
-    import RPi.GPIO as GPIO
 
-    # Disable any warning message such as GPIO pins in use
-    GPIO.setwarnings(False)
+class usonic():
 
-    # use the values of the GPIO pins, and not the actual pin number
-    # so if you connect to GPIO 25 which is on pin number 22, the
-    # reference in this code is 25, which is the number of the GPIO
-    # port and not the number of the physical pin
-    GPIO.setmode(GPIO.BCM)
 
-    if sensor == 0:
+    def init(self, triggerpin, echopin):
+
+        self.triggerpin = triggerpin
+        self.echopin = echopin
+        if self.triggerpin or self.echopin == 0:
+            print "Error is configuring GPIO for ultrasound device"
+
+        # Disable any warning message such as GPIO pins in use
+        GPIO.setwarnings(False)
+
+        # use the values of the GPIO pins, and not the actual pin number
+        # so if you connect to GPIO 25 which is on pin number 22, the
+        # reference in this code is 25, which is the number of the GPIO
+        # port and not the number of the physical pin
+        GPIO.setmode(GPIO.BCM)
 
         # point the software to the GPIO pins the sensor is using
         # change these values to the pins you are using
         # GPIO output = the pin that's connected to "Trig" on the sensor
         # GPIO input = the pin that's connected to "Echo" on the sensor
         #GPIO.setup(17,GPIO.OUT)
-        GPIO.setup(23,GPIO.OUT)
+        GPIO.setup(self.triggerpin, GPIO.OUT)
         #GPIO.setup(27,GPIO.IN)
-        GPIO.setup(24,GPIO.IN)
+        GPIO.setup(self.echopin, GPIO.IN)
         #GPIO.output(17, GPIO.LOW)
-        GPIO.output(23, GPIO.LOW)
+        GPIO.output(self.triggerpin, GPIO.LOW)
 
         # found that the sensor can crash if there isn't a delay here
         # no idea why. If you have odd crashing issues, increase delay
         time.sleep(0.3)
+        pass
+
+    def readdistance(self, triggerpin, echopin):
 
         # sensor manual says a pulse length of 10Us will trigger the
         # sensor to transmit 8 cycles of ultrasonic burst at 40kHz and
@@ -47,7 +57,7 @@ def reading(sensor):
         # change this value to the pin you are using
         # GPIO output = the pin that's connected to "Trig" on the sensor
         #GPIO.output(17, True)
-        GPIO.output(23, True)
+        GPIO.output(triggerpin, True)
 
         # wait 10 micro seconds (this is 0.00001 seconds) so the pulse
         # length is 10Us as the sensor expects
@@ -57,7 +67,7 @@ def reading(sensor):
         # change this value to the pin you are using
         # GPIO output = the pin that's connected to "Trig" on the sensor
         #GPIO.output(17, False)
-        GPIO.output(23, False)
+        GPIO.output(triggerpin, False)
 
         # listen to the input pin. 0 means nothing is happening. Once a
         # signal is received the value will be 1 so the while loop
@@ -65,7 +75,7 @@ def reading(sensor):
         # change this value to the pin you are using
         # GPIO input = the pin that's connected to "Echo" on the sensor
         #while GPIO.input(27) == 0:
-        while GPIO.input(24) == 0:
+        while GPIO.input(echopin) == 0:
           signaloff = time.time()
 
         # listen to the input pin. Once a signal is received, record the
@@ -73,7 +83,7 @@ def reading(sensor):
         # change this value to the pin you are using
         # GPIO input = the pin that's connected to "Echo" on the sensor
         #while GPIO.input(27) == 1:
-        while GPIO.input(24) == 1:
+        while GPIO.input(echopin) == 1:
           signalon = time.time()
 
         # work out the difference in the two recorded times above to
@@ -90,8 +100,3 @@ def reading(sensor):
         # we're no longer using the GPIO, so tell software we're done
         GPIO.cleanup()
 
-    else:
-        print "Incorrect usonic() function varible."
-
-
-print reading(0)
