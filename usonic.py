@@ -42,8 +42,9 @@ class usonic():
         # found that the sensor can crash if there isn't a delay here
         # no idea why. If you have odd crashing issues, increase delay
         time.sleep(0.3)
-        pass
         """
+        pass
+
 
     def readdistance(self, triggerpin, echopin):
 
@@ -95,6 +96,7 @@ class usonic():
         # we now have our distance but it's not in a useful unit of
         # measurement. So now we convert this distance into centimetres
         self.distance = self.timepassed * 17000
+        self.distance *= 0.393701                   # convert to inches
 
         # return the distance of an object in front of the sensor in cm
         return self.distance
