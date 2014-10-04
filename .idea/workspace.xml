@@ -12,6 +12,8 @@
     <file path="/views.py" changelist="b1810a1b-d1d4-4317-8844-8d698b71073e" time="1412454436890" ignored="false" />
     <file path="$PROJECT_DIR$/../__init__.py" changelist="b1810a1b-d1d4-4317-8844-8d698b71073e" time="1412185416375" ignored="false" />
     <file path="/usonic.py" changelist="b1810a1b-d1d4-4317-8844-8d698b71073e" time="1412454728379" ignored="false" />
+    <file path="/settings.py" changelist="b1810a1b-d1d4-4317-8844-8d698b71073e" time="1412462508818" ignored="false" />
+    <file path="$USER_HOME$/testenv/development/standup/standup/settings.py" changelist="b1810a1b-d1d4-4317-8844-8d698b71073e" time="1412462514424" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
